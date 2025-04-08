@@ -4,9 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Diary</title>
 </head>
 <body>
-	<h1>index.jsp</h1>
+	<jsp:include page="header.jsp"></jsp:include>
+	<div class="container mt-5">
+		<div class="row">
+
+			<h1>index.jsp</h1>
+
+		</div>
+	</div>
+	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
