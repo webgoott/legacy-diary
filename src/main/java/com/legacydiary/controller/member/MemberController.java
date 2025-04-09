@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,18 +75,48 @@ public class MemberController {
 	}
 	
 	@PostMapping("/callSendMail")
-	public void sendMailAuthCode(@RequestParam String tmpMemberEmail) {
+	public ResponseEntity<String> sendMailAuthCode(@RequestParam String tmpMemberEmail, HttpSession session) {
 		
 		log.info("tmpMemberEmail : {} " + tmpMemberEmail);
+		
+		String result = "";
 		
 		String authCode = UUID.randomUUID().toString(); // Universally Unique Identifier
 		log.info("authCode : {} ", authCode);
 		
 		try {
-			sendMailService.sendMail(tmpMemberEmail, authCode);
+			sendMailService.sendMail(tmpMemberEmail, authCode); // 메인 전송
+			
+			session.setAttribute("authCode", authCode); // 인증코드를 세션객체에 저장 
+			result = "success";
+			
 		} catch (IOException | MessagingException e) {
 			e.printStackTrace();
+			result = "fail";
 		}
+		
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/checkAuthCode")
+	public ResponseEntity<String> checkAuthCode(@RequestParam String memberAuthCode, HttpSession session) {
+		
+		// 유저가 보낸 AuthCode와 우리가 보낸 AuthCode가 일치하는지 확인
+		log.info("memberAuthCode : {}", memberAuthCode);
+		log.info("session에 저장된 코드 : {} " , session.getAttribute("authCode"));
+		
+		String result = "fail";
+		
+		if (session.getAttribute("authCode") != null) {
+			String sesAuthCode = (String) session.getAttribute("authCode");
+			
+			if (memberAuthCode.equals(sesAuthCode)) {
+				result = "success";
+			}
+		}
+		
+		return new ResponseEntity<String>(result, HttpStatus.OK);
 		
 	}
 	

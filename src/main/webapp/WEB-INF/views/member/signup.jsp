@@ -144,6 +144,11 @@ function callSendMail() {
         success: function (data) {
           // 통신이 성공하면 수행할 함수
           console.log(data);
+          if (data == "success") {
+        	  if ($(".authenticationDiv").length == 0) {
+	        	  showAuthenticateDiv(); // 인증번호를 입력받을 태그 요소를 출력
+        	  }
+          }
 
         },
         error: function () {},
@@ -151,6 +156,48 @@ function callSendMail() {
         },
   	});
 	
+}
+
+function showAuthenticateDiv() {
+	
+	let authDiv = `
+		<div class="authenticationDiv mt-2">
+		<input type="text" class="form-control" id="memberAuthCode" placeholder="인증번호를 입력하세요.." />
+		<button type="button" class="btn btn-info" onclick="checkAuthCode();">인증하기</button>
+		</div>
+	`;
+	
+	$(authDiv).insertAfter("#email");
+}
+
+function checkAuthCode(){
+	let memberAuthCode = $("#memberAuthCode").val();
+// 	alert(memberAuthCode);
+	
+	$.ajax({
+        url: '/member/checkAuthCode', // 데이터가 송수신될 서버의 주소
+        type: "POST", // 통신 방식 (GET, POST, PUT, DELETE)
+		data: {
+			  "memberAuthCode" :  memberAuthCode
+		  },  // 보내는 데이터
+        dataType: "text", // 수신받을 데이터 타입 (MIME TYPE) (text, json, xml)
+        // async: false, // 동기 통신 방식
+        success: function (data) {
+          // 통신이 성공하면 수행할 함수
+          console.log(data);
+          if (data == "success") {
+        	  outputError("인증완료", $("#email"), "green");
+        	  $(".authenticationDiv").remove();
+        	  $("#emailValid").val("checked");
+          } 
+        },
+        error: function () {},
+        complete: function () {
+        },
+  	});
+
+	
+	// 34분까지~~~~
 }
 
 
@@ -207,6 +254,7 @@ function isValid(){
 			    <div class="mb-3 mt-3">
 			      <label for="email">이메일 :</label><span></span>
 			      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+			       <input type="hidden" id="emailValid"/>
 			    </div>
 				<div class="mb-3 mt-3">
 			      <label for="memberName">이름 :</label><span></span>
