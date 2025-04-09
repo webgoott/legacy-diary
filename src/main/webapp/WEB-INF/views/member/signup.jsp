@@ -93,8 +93,65 @@ $(function(){
 		
 	});
 	
+	// 이메일 
+	$("#email").blur(function(){
+		if ($("#email").val().length > 0) {
+			checkEmail();
+		} else {
+			outputError("이메일은 필수항목입니다.", $("#email"), "red");
+		}
+	});
+	
+	
 	
 });
+
+
+function checkEmail() {
+// 	alert("checkEmail");
+// 1) 정규표현식을 이용하여 이메일 주소 형식인지 아닌지 판단 + 중복체크
+// 2) 이메일 주소 형식이면.. 인증번호를 이메일로 보내고
+//       인증번호를 입력받을 태그 생성해서 다시 입력받아서 보낸 인증번호와 유저가 입력한 인증번호가 일치하는지 검증
+	
+	let tmpMemberEmail = $("#email").val();
+	let emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	
+	if (!emailRegExp.test(tmpMemberEmail)) {
+		outputError("이메일 형식이 아입니다.", $("#email"), "red");
+	} else {
+		outputError("이메일 형식입니다.", $("#email"), "green");
+		
+		callSendMail(); // 이메일 발송 	
+		
+		
+		
+	}
+	
+	
+	
+}
+
+function callSendMail() {
+	
+	$.ajax({
+        url: '/member/callSendMail', // 데이터가 송수신될 서버의 주소
+        type: "POST", // 통신 방식 (GET, POST, PUT, DELETE)
+		  data: {
+			  "tmpMemberEmail" :  $("#email").val()
+		  },  // 보내는 데이터
+        dataType: "text", // 수신받을 데이터 타입 (MIME TYPE) (text, json, xml)
+        // async: false, // 동기 통신 방식
+        success: function (data) {
+          // 통신이 성공하면 수행할 함수
+          console.log(data);
+
+        },
+        error: function () {},
+        complete: function () {
+        },
+  	});
+	
+}
 
 
 function outputError(errorMsg, tagObj, color) {
