@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.legacydiary.domain.MemberDTO;
 import com.legacydiary.domain.MyResponse;
-import com.legacydiary.domain.User;
 import com.legacydiary.service.member.MemberService;
 import com.legacydiary.util.SendMailService;
 
@@ -118,6 +119,26 @@ public class MemberController {
 		
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 		
+	}
+	
+	@PostMapping("/signup")
+	public String registerMember(MemberDTO registerMember, RedirectAttributes rttr) {
+		
+		log.info("registerMember : {} ", registerMember + "회원가입하러 가자~~~");
+		
+		String result = "";
+		if (mService.saveMember(registerMember)) {
+			// 가입 완료 후 index.jsp로 가자.
+			rttr.addAttribute("status", "success");
+			result = "redirect:/";
+			
+		} else {
+			// 가입 실패 -> 다시 회원가입 페이지로
+			rttr.addAttribute("status", "fail");
+			result = "redirect:/member/signup";
+		}
+		
+		return result;
 	}
 	
 	

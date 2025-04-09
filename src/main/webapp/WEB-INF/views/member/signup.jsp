@@ -197,7 +197,7 @@ function checkAuthCode(){
   	});
 
 	
-	// 34분까지~~~~
+
 }
 
 
@@ -218,11 +218,52 @@ function idValid() {
 	return result;
 }
 
+function pwdValid(){
+	let result = false;
+	
+	if ($("#pwdValid").val() == "checked") {
+		result = true;
+	} 
+	
+	return result;
+}
+
+function emailValid(){
+	let result = false;
+	
+	if ($("#emailValid").val() == "checked") {
+		result = true;
+	} 
+	
+	return result;
+}
+
+function nameValid() {
+	
+	if ($("#memberName").val().length == 0) {
+		outputError("이름은 필수 항목입니다", $("#memberName"), "red");
+		return false;
+	} else {
+		outputError("", $("#memberName"), "green");
+	}
+	
+	return true;
+	
+}
+
 function isValid(){
 		// 아이디 : 필수, 중복 불가, 길이 (4~8자)
 		
 		let result = false;	
+		
 		let idCheck = idValid();
+		let pwdCheck = pwdValid();
+		let emailCheck = emailValid();
+		let nameCheck = nameValid();
+		
+		if (idCheck && pwdCheck && emailCheck && nameCheck) {
+			result = true;
+		}
 		
 		return result;
 		

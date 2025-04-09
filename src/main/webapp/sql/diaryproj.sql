@@ -10,3 +10,7 @@ CREATE TABLE `ksy`.`member` (
 
 -- 아이디 중복 검사
 select count(*) from member where memberId = 'tosimi';
+
+-- 회원 가입
+insert into member(memberId, memberPwd, email, memberName)
+values(?, sha1(md5(?)), ?, ?)

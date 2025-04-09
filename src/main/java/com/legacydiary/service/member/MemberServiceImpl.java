@@ -2,6 +2,7 @@ package com.legacydiary.service.member;
 
 import org.springframework.stereotype.Service;
 
+import com.legacydiary.domain.MemberDTO;
 import com.legacydiary.persistence.MemberDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,18 @@ public class MemberServiceImpl implements MemberService {
 		boolean result = false;
 		
 		if (dao.selectDuplicateId(tmpMemberId) == 1) { // 중복!!!
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public boolean saveMember(MemberDTO registerMember) {
+		
+		boolean result = false;
+		
+		if (dao.insertMember(registerMember) == 1) {
+			// 가입 성공
 			result = true;
 		}
 		return result;
