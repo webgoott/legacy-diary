@@ -38,8 +38,8 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		String name = "tosimi";
-		log.info("logging..........................{} ", name);
+//		String name = "tosimi";
+//		log.info("logging..........................{} ", name);
 	
 //		return "home";
 		return "index";
