@@ -78,7 +78,7 @@ public class MemberController {
 	@PostMapping("/callSendMail")
 	public ResponseEntity<String> sendMailAuthCode(@RequestParam String tmpMemberEmail, HttpSession session) {
 		
-		log.info("tmpMemberEmail : {} " + tmpMemberEmail);
+		log.info("tmpMemberEmail : {} " , tmpMemberEmail);
 		
 		String result = "";
 		
@@ -139,6 +139,17 @@ public class MemberController {
 		}
 		
 		return result;
+	}
+	
+	@PostMapping("/clearAuthCode")
+	public ResponseEntity<String> clearCode(HttpSession session) {
+		
+		if (session.getAttribute("authCode") != null) {
+			// 세션에 저장된 인증 코드를 삭제
+			session.removeAttribute("authCode");
+		}
+
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
 	
