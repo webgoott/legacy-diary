@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.legacydiary.domain.LoginDTO;
 import com.legacydiary.domain.MemberDTO;
 import com.legacydiary.domain.MyResponse;
 import com.legacydiary.service.member.MemberService;
@@ -150,6 +151,46 @@ public class MemberController {
 		}
 
 		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	
+	@GetMapping("/login")
+	public String loginForm() {
+		
+		return "/member/login";
+	}
+	
+	@PostMapping("/login")
+	public String loginPOST(LoginDTO loginDTO, HttpSession session) {
+		log.info("loginDTO {} ", loginDTO);
+		String resultPage = "";
+		
+		MemberDTO loginMember = mService.login(loginDTO);
+		log.info("loginMember : {}", loginMember );
+		
+		if (loginMember != null) {
+			// 로그인 성공 - > homepage로 보낸다 ("/")
+			session.setAttribute("loginMember", loginMember); // 세션에 로그인한 멤버의 정보를 저장
+			resultPage = "redirect:/";
+		} else {
+			// 로그인 실패 -> 로그인 페이지 ("/member/login")
+			resultPage = "redirect:/member/login";
+		}
+		
+		return resultPage;
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+	
+		if (session.getAttribute("loginMember") != null) {
+			// 세션에 저장된 값들 삭제
+			session.removeAttribute("loginMember");
+			
+			// 세션 무효화
+			session.invalidate();
+		}
+		
+		return "redirect:/"; 
 	}
 	
 	
