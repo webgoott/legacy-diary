@@ -94,5 +94,40 @@ public class SendMailService {
 		
 	}
 	
+	public void sendReminder(String email, String message) throws AddressException, MessagingException, FileNotFoundException, IOException {
+		
+		Properties props = new Properties();
+		getAccount();
+		
+		// gmail smtp
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.required", "true");
+//		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+		props.put("mail.smtp.auth", "true");
+		
+		// 세션 생성
+		Session mailSession = Session.getInstance(props, new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		
+		if (mailSession != null) {
+			MimeMessage mime = new MimeMessage(mailSession);
+			mime.setFrom(new InternetAddress(username)); // 보내는 사람의 메일 주소
+			mime.addRecipient(RecipientType.TO, new InternetAddress(email)); // 받는 사람의 메일 주소
+			
+			mime.setSubject("리마인더"); // 메일 제목
+//			mime.setText(message); // 메일 본문
+			
+			mime.setText(message, "utf-8", "html");
+			
+			Transport.send(mime);
+		}
+		
+	}
 	
 }
