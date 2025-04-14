@@ -31,6 +31,22 @@ values(?, sha1(md5(?)), ?, ?)
 use ksy;
 select * from diary order by dno desc;
 
+-- 다이어리 title, dueDate 수정
+update dairy set title = ?, dueDate = ? where dno = ?
+
+
+-- 로그인
+select * from member where memberId = ? and memberPwd = sha1(md5(?))
+
+-- memberId로 글 목록 조회
+select * from diary where writer = ?;
+
+-- 내일이 마감인 목록
+select * from diary where dueDate = date_add(curdate(), interval 1 day);
+
+
+
+
 
 
 
