@@ -70,6 +70,9 @@ $(function(){
 	});
 	
 	
+	$("#searchBtn").click(function () {
+		$("#searchFormCard").toggle();
+	})
 	
 });
 
@@ -112,7 +115,8 @@ function modifyDiary() {
 
 </script>
 <style>
-	li.completed {
+	li.completed .titleDiv,
+	li.completed .dueDateDiv {
 		color : gray;
 		text-decoration : line-through;
 	}
@@ -125,7 +129,44 @@ function modifyDiary() {
 		<div class="row">
 
 			<h1>다이어리 목록</h1>
-			<div>${diaryList }</div>
+			
+			<div class="mb-3">
+				<button class="btn btn-primary" id="searchBtn"> 🔍검색옵션</button>
+			</div>
+			
+			<div class="card" id="searchFormCard" style="display:none;">
+    			<div class="card-body">
+    				<form action="/diary/search" method="post">
+    					<div class="mb-3 mt-3">
+    						<label for="searchWord" class="form-label">제목 검색:</label>
+    						<input type="text" class="form-control" id="searchWord" placeholder="검색어를 입력하세요..." name="searchWord">
+    						<input type="hidden" name="searchTypes" value="title" />
+  						</div>
+  						<div>
+  						<label for="finishedSelect" class="form-label">완료여부 (select one):</label>
+						    <select class="form-select" id="finishedSelect" name="finished">
+						      <option value="">모두보기</option>
+						      <option value="0">미완료</option>
+						      <option value="1">완료</option>
+						    </select>
+    					</div>
+    					<div>
+    						<label for="from" class="form-label">dueDate (From):</label>
+    						<input type="date" class="form-control" id="from" name="from">
+    					</div>
+    					<div>
+    						<label for="to" class="form-label">dueDate (To) :</label>
+    						<input type="date" class="form-control" id="to" name="to">
+    					</div>
+    					
+    					<div>
+    						<button type="submit" class="btn btn-primary">검색</button>
+    					</div>
+    				</form>
+    			</div>
+  			</div>
+			
+<%-- 			<div>${diaryList }</div> --%>
 			
 			<ul class="list-group">
 				<c:forEach var="diary" items="${diaryList }">
@@ -135,9 +176,9 @@ function modifyDiary() {
 	    				 <input type="checkbox" class="form-check-input finishedCheckbox" data-dno="${diary.dno }"
 	    				 <c:if test="${diary.finished }">checked</c:if> />
 	    				 
-	      				 <div class="" >${diary.title } </div>
+	      				 <div class="titleDiv" >${diary.title } </div>
 	      				 
-						 <div> (${diary.dueDate })</div>		
+						 <div class="dueDateDiv"> (${diary.dueDate })</div>		
 						 
 						 <button type="button" class="btn btn-outline-info btn-sm modifyBtn" 
 						 		data-dno="${diary.dno }"
