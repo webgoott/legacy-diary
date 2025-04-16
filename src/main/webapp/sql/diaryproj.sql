@@ -44,7 +44,8 @@ select * from diary where writer = ?;
 -- 내일이 마감인 목록
 select * from diary where dueDate = date_add(curdate(), interval 1 day);
 
-
+-- 멤버아이디로 이메일 조회
+select email from member where memberId = ?
 
 
 
