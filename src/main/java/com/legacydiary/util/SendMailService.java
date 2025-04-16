@@ -15,6 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SendMailService {
 
+	@Value("${email.username}")
+	private String emailUsername;
+	
 	private String username;
 	private String password;
 	
@@ -79,6 +83,8 @@ public class SendMailService {
 			mime.setText(html, "utf-8", "html");
 			
 			Transport.send(mime);
+			
+			log.info("email.username : {}", emailUsername);
 		}
 		
 	}

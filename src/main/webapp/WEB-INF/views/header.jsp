@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,24 +24,24 @@
         <c:choose>
         	<c:when test="${loginMember == null }">
 				<li class="nav-item">
-			         <a class="nav-link" href="/member/signup">회원가입</a>
+			         <a class="nav-link" href="${pageContext.request.contextPath}/member/signup">회원가입</a>
 			        </li>
 			        <li class="nav-item">
-			          <a class="nav-link" href="/member/login">로그인</a>
+			          <a class="nav-link" href="${contextPath }/member/login">로그인</a>
 			        </li>        	
         	</c:when>
         	<c:otherwise>
         		<li class="nav-item">
-		          <a class="nav-link" href="/member/mypage">${loginMember.memberId }님</a>
+		          <a class="nav-link" href="${contextPath }/member/mypage">${loginMember.memberId }님</a>
 		        </li>
         		<li class="nav-item">
-			          <a class="nav-link" href="/member/logout">로그아웃</a>
+			          <a class="nav-link" href="${contextPath }/member/logout">로그아웃</a>
 			        </li> 
 		        <li class="nav-item">
-		          <a class="nav-link" href="/diary/register">다이어리 등록</a>
+		          <a class="nav-link" href="${contextPath }/diary/register">다이어리 등록</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link" href="/diary/list">다이어리 목록</a>
+		          <a class="nav-link" href="${contextPath }/diary/list">다이어리 목록</a>
 		        </li>  
         		
         	</c:otherwise>
