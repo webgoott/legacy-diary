@@ -12,7 +12,11 @@
 		<div class="row">
 
 			<h1>index.jsp</h1>
-
+			<div>
+				<img alt="" src="/resources/images/lake.jpg">
+			</div>
+			
+			
 		</div>
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>

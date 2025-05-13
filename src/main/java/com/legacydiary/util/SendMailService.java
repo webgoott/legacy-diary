@@ -25,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 public class SendMailService {
 
 	@Value("${email.username}")
-	private String emailUsername;
-	
 	private String username;
+
+	@Value("${email.password}")
 	private String password;
 	
 	public void sendMail(String emailAddr, String activationCode) throws FileNotFoundException, IOException, AddressException, MessagingException {
-		
+				
 		String subject = "😊legacydiary.com에서 보내는 회원가입 이메일 인증번호입니다😊";
 		String message = "회원가입을 환영합니다. 인증번호를 입력하시고 회원가입을 완료하세요" 
 				+ "인증 번호 : " + activationCode;
@@ -46,7 +46,7 @@ public class SendMailService {
 //		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 //		props.put("mail.smtp.auth", "true");
 	
-		getAccount();
+//		getAccount();
 		
 		// gmail smtp
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -84,7 +84,8 @@ public class SendMailService {
 			
 			Transport.send(mime);
 			
-			log.info("email.username : {}", emailUsername);
+			log.info("mime ---- {} ", mime);
+
 		}
 		
 	}
@@ -103,7 +104,7 @@ public class SendMailService {
 	public void sendReminder(String email, String message) throws AddressException, MessagingException, FileNotFoundException, IOException {
 		
 		Properties props = new Properties();
-		getAccount();
+//		getAccount();
 		
 		// gmail smtp
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -131,6 +132,7 @@ public class SendMailService {
 			
 			mime.setText(message, "utf-8", "html");
 			
+			log.info("mime ---- {} ", mime);
 			Transport.send(mime);
 		}
 		

@@ -47,7 +47,7 @@ select * from diary where dueDate = date_add(curdate(), interval 1 day);
 -- 멤버아이디로 이메일 조회
 select email from member where memberId = ?
 
-
+members
 
 
 

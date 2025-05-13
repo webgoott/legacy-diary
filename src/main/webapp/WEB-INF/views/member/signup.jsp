@@ -152,6 +152,8 @@ function callSendMail() {
         	  }
         	  startTimer(); // 타이머 동작
         	  
+          } else if (data == "fail"){
+        	  alert("이메일을 전송하지 못했습니다. 잠시 후에 다시 요청해주세요");
           }
 
         },

@@ -31,7 +31,7 @@ public class EmailReminderScheduler {
 	private final MemberDAO memberDAO;
 	private final SendMailService sendMailService;
 
-	@Scheduled(cron = "0 30 17 * * *") // 매일 17시 30분 정각에 동작
+	@Scheduled(cron = "0 10 11 * * *") 
 	public void reminderShedule() throws AddressException, FileNotFoundException, MessagingException, IOException {
 		// 내일 마감인 글 조회
 		List<DiaryVO> list = diaryMapper.selectDiaryDueTomorrow();

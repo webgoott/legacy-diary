@@ -35,6 +35,17 @@ public class DiaryMapperTest {
 	}
 	
 	@Test
+	public void selectAllListTest() {
+		log.info("diaryList : {} ", diaryMapper.selectAllList());
+		List<DiaryVO> list = diaryMapper.selectAllList();
+		
+		for (DiaryVO vo : list) {
+			log.info("isFinished? : dno={}, finished={} " , vo.getDno(), vo.isFinished());
+		}
+	}
+	
+	
+	@Test
 	public void selectDiaryDueTomorrowTest() {
 		// 내일 마감인 글 조회
 		List<DiaryVO> list = diaryMapper.selectDiaryDueTomorrow();
@@ -94,6 +105,13 @@ public class DiaryMapperTest {
 		for (DiaryVO diary : result) {
 			log.info("diary : {}", diary);
 		}
+		
+	}
+	
+	@Test
+	public void testDueDate() {
+		
+		log.info("result : {}", diaryMapper.testDueDate("2025-04-30"));
 		
 	}
 }

@@ -25,4 +25,6 @@ public interface DiaryMapper {
 	
 	// 검색
 	List<DiaryVO> selectSearchList(SearchDTO searchDTO);
+	
+	List<DiaryVO> testDueDate(String dateLimit);
 }
